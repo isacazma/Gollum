@@ -13,40 +13,34 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("shopper")
 public class PersonResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getShoppers() {
+    public Response getShoppers() {
         Shop shop = Shop.getShop();
-        JsonArrayBuilder jab = Json.createArrayBuilder();
 
-        for (Shopper p : shop.getAllPersons()) {
-            JsonObjectBuilder job = Json.createObjectBuilder();
-            job.add("name", p.getName());
-            job.add("numberOfLists", p.getAmountOfLists());
-            jab.add(job);
+        List<Shopper> shoppers = shop.getAllPersons();
+        if(shoppers.isEmpty()) {
+            return Response.noContent().build();
         }
-
-        JsonArray array = jab.build();
-        return array.toString();
+        return Response.ok(shoppers).build();
 
     }
 
     @GET
     @Path("{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getShoppingListsFromPerson(@PathParam("name") String name) {
+    public Response getShoppingListsFromPerson(@PathParam("name") String name) {
         Shop shop = Shop.getShop();
-        JsonArrayBuilder jab = Json.createArrayBuilder();
-
-        for (ShoppingList sl : shop.getListFromPerson(name)) {
-            JsonObjectBuilder job = Json.createObjectBuilder();
-            job.add("name", sl.getName());
-            jab.add(job);
+        List<ShoppingList> lists = shop.getListFromPerson(name);
+        if(lists == null){
+            return Response.status(Response.Status.NO_CONTENT).build(); //dit geeft een 204
         }
-        return jab.build().toString();
+        return Response.ok(lists).build(); //inclusief lijstitems dus weer
     }
 }
