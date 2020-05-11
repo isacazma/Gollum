@@ -35,9 +35,8 @@ public class ListResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createShoppingList(@FormParam("owner") String owner, @FormParam("name") String listname) {
         //Dit voorbeeld zo expliciet mogelijk uitgewerkt, bevat vele checks, maar geeft ENKEL statuscodes terug en gebruikt FormParam als input
-        Shopper toFind = new Shopper(owner);
-        if (Shopper.getAllShoppers().contains(toFind)) { //werkt want equals checkt enkel op name van shopper
-            Shopper found = Shopper.getAllShoppers().get(Shopper.getAllShoppers().indexOf(toFind)); //dit is de daadwerkelijk gevonden shopper, niet de dummy om te zoeken
+        Shopper found = Shopper.getAllShoppers().stream().filter(e->e.getName().equals(owner)).findFirst().orElse(null);
+        if (found != null) { //werkt want equals checkt enkel op name van shopper
             if (found.addList(new ShoppingList(listname, found))) { //addList laat ons weten of het toevoegen gelukt is (ivm dubbele namen kan dit mislukken)
                 return Response.ok().build();
             } else {
@@ -64,7 +63,7 @@ public class ListResource {
                 JsonObject productObject = (JsonObject) jsonStructure;
                 String shoppingListName = productObject.getString("list");
                 String productName = productObject.getString("productname");
-                int amount = productObject.getInt("amount");
+                int amount = Integer.parseInt(productObject.getString("amount"));
                 ShoppingList theList = ShoppingList.getAllLists().stream().filter(e->e.getName().equals(shoppingListName)).findFirst().orElse(null);
                 if(theList==null){
                     return Response.status(Response.Status.NOT_FOUND).entity(new AbstractMap.SimpleEntry<>("error", "could not find list: "+shoppingListName)).build();
@@ -76,7 +75,7 @@ public class ListResource {
             }
             return Response.status(Response.Status.BAD_REQUEST).entity(new AbstractMap.SimpleEntry<>("error", "no valid JsonValue given, was type: "+jsonStructure.getValueType().toString())).build();
         } catch (Exception e) {
-            return Response.status(Response.Status.CONFLICT).entity(new AbstractMap.SimpleEntry<>("error", "could not add product for some other reason")).build();
+            return Response.status(Response.Status.CONFLICT).entity(new AbstractMap.SimpleEntry<>("error", e.getMessage())).build();
         }
     }
 }
