@@ -50,6 +50,7 @@ public class ListResource {
 
 
     @POST
+    @Path("/item") //om deze post te onderscheiden van de POST hierboven
     @Produces(MediaType.APPLICATION_JSON)
     public Response addProductToList(String jsonBody) {
         //Dit voorbeeld gebruikt json als input en geeft bij de statuscode ook meldingen mee met daarin de fout, dat is wat prettiger voor de frontend programmeur
