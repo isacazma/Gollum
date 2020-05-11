@@ -48,8 +48,8 @@
 <h3>Add Product to List</h3>
 <form id="POSTProductForm" method="post" action="/restservices/list/item">
     <label for="shoppinglistname">List name:<input type="text" id="productshoppinglistname" name="list"/></label>
-    <label for="productname">Owner name:<input type="text" id="productname" name="productname"/></label><br/>
-    <label for="amount">List name:<input type="number" id="amount" name="amount"/></label>
+    <label for="productname">Product name:<input type="text" id="productname" name="productname"/></label><br/>
+    <label for="amount">Amount:<input type="number" id="amount" name="amount"/></label>
     <input type="button" id="postProduct" value="Post!"/>
 </form>
 
@@ -66,18 +66,24 @@
             });
     });
     //Send second form using JSON as body
-    let jsonRequestBody = {};
-    let form = document.querySelector("#POSTProductForm");
+    document.querySelector("#postProduct").addEventListener("click", function () {
+        let jsonRequestBody = {};
+        let form = document.querySelector("#POSTProductForm");
 
-    //automatisch verwerken van het formulier om het minder bewerkelijk te maken
-    new FormData(form).forEach((value, key) => jsonRequestBody[key] = value);
+        //automatisch verwerken van het formulier om het minder bewerkelijk te maken
+        new FormData(form).forEach((value, key) => jsonRequestBody[key] = value);
 
-    fetch(form.action, { method: form.method, body: JSON.stringify(jsonRequestBody), headers: {'Content-Type': 'application/json' }})
-        .then(response => response.json()) //het antwoord van jackson=json
-        .then(myJson => console.log(myJson)) //log het antwoord
-        .catch(error => console.log(error)); //log de error
+        fetch(form.action, {
+            method: form.method,
+            body: JSON.stringify(jsonRequestBody),
+            headers: {'Content-Type': 'application/json'}
+        })
+            .then(response => response.json()) //het antwoord van jackson=json
+            .then(myJson => console.log(myJson)) //log het antwoord
+            .catch(error => console.log(error)); //log de error
 
-    event.preventDefault();
+        event.preventDefault();
+    });
 </script>
 </body>
 </html>
