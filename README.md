@@ -17,3 +17,6 @@ optioneel: intellij settings maven -> import sources & documentation
 - met jackson komt er wat meer data over de lijn dan in het oorspronkelijke voorbeeld (ook listitems bijvoorbeeld)
 - om het voor de studenten wat kleiner te laten lijken heb ik in deze opdracht iets van de restful richtlijn afgeweken.
 de webservices zitten achter klassenaam-enkelvoud, maar bevatten toch ook de getall methodes. in de les 7 heb ik laten zien dat dit eigenlijk gesplitst hoort te zijn. 
+
+##bugs
+ShoppingList bevat geen equals methode
