@@ -38,6 +38,46 @@
             non-existent shopper</a>
     </li>
 </ul>
+<h2>Post methods</h2>
+<h3>Add Shoppinglist</h3>
+<form id="POSTShoppingListForm">
+    <label for="owner">Owner name:<input type="text" id="owner" name="owner"/></label><br/>
+    <label for="shoppinglistname">List name:<input type="text" id="shoppinglistname" name="name"/></label>
+    <input type="button" id="postList" value="Post!"/>
+</form>
+<h3>Add Product to List</h3>
+<form id="POSTProductForm" method="post" action="/restservices/list/item">
+    <label for="shoppinglistname">List name:<input type="text" id="productshoppinglistname" name="list"/></label>
+    <label for="productname">Owner name:<input type="text" id="productname" name="productname"/></label><br/>
+    <label for="amount">List name:<input type="number" id="amount" name="amount"/></label>
+    <input type="button" id="postProduct" value="Post!"/>
+</form>
 
+<script type="text/javascript">
+    //Send first form using FormParams in the backend
+    document.querySelector("#postList").addEventListener("click", function () {
+        var formData = new FormData(document.querySelector("#POSTShoppingListForm"));
+        var encData = new URLSearchParams(formData.entries());
+
+        fetch("restservices/list", {method: 'POST', body: encData})
+            .then(response => response.json())
+            .then(function (myJson) {
+                console.log(myJson);
+            });
+    });
+    //Send second form using JSON as body
+    let jsonRequestBody = {};
+    let form = document.querySelector("#POSTProductForm");
+
+    //automatisch verwerken van het formulier om het minder bewerkelijk te maken
+    new FormData(form).forEach((value, key) => jsonRequestBody[key] = value);
+
+    fetch(form.action, { method: form.method, body: JSON.stringify(jsonRequestBody), headers: {'Content-Type': 'application/json' }})
+        .then(response => response.json()) //het antwoord van jackson=json
+        .then(myJson => console.log(myJson)) //log het antwoord
+        .catch(error => console.log(error)); //log de error
+
+    event.preventDefault();
+</script>
 </body>
 </html>
