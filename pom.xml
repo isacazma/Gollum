@@ -51,14 +51,19 @@
         <dependency><!-- for runnning webservice api with jax-rs-->
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet</artifactId>
-            <version>2.30.1</version>
+            <version>2.29.1</version>
         </dependency>
         <dependency><!-- for injection purposes with jax-rs-->
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
-            <version>2.30.1</version>
+            <version>2.29.1</version>
         </dependency>
-        <!-- @TODO be sure to add Jackson, this would be a good spot :) -->
+        <dependency><!-- NIET JACKSON1 maar jackson -->
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+            <version>2.29.1</version>
+        </dependency>
+
 
         <!--    <dependency> to connect your blob service -->
         <!--      <groupId>com.azure</groupId>-->
