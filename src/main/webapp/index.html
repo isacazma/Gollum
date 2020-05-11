@@ -60,10 +60,7 @@
         var encData = new URLSearchParams(formData.entries());
 
         fetch("restservices/list", {method: 'POST', body: encData})
-            .then(response => response.json())
-            .then(function (myJson) {
-                console.log(myJson);
-            });
+            .then(response => console.log(response));
     });
     //Send second form using JSON as body
     document.querySelector("#postProduct").addEventListener("click", function () {
