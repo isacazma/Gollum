@@ -10,7 +10,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.StringReader;
-import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @Path("list")
 public class ListResource {
@@ -20,7 +22,14 @@ public class ListResource {
     public Response getShoppingLists() {
         if (Shop.getShop().getAllShoppingLists().isEmpty())
             return Response.noContent().build(); // 204: succesvol verzoek, maar niets om te tonen
-        return Response.ok(Shop.getShop().getAllShoppingLists()).build(); //kleine consequentie is dat hier de listitems ook getoond worden, voorheen was dat niet zo
+        ArrayList<HashMap<String,String>> info = new ArrayList<>();
+        for(ShoppingList sl : Shop.getShop().getAllShoppingLists()){
+            HashMap<String,String> lijst = new HashMap<>();
+            lijst.put("listname", sl.getName());
+            lijst.put("owner", sl.getOwner().getName());
+            info.add(lijst);
+        }
+        return Response.ok(info).build(); //op deze manier houden we jackson binnen de perken zonder @JsonIgnore
     }
 
     @GET
@@ -66,16 +75,16 @@ public class ListResource {
                 int amount = Integer.parseInt(productObject.getString("amount"));
                 ShoppingList theList = ShoppingList.getAllLists().stream().filter(e->e.getName().equals(shoppingListName)).findFirst().orElse(null);
                 if(theList==null){
-                    return Response.status(Response.Status.NOT_FOUND).entity(new AbstractMap.SimpleEntry<>("error", "could not find list: "+shoppingListName)).build();
+                    return Response.status(Response.Status.NOT_FOUND).entity(new SimpleEntry<>("error", "could not find list: "+shoppingListName)).build();
                 }
                 if(theList.addItem(new Product(productName), amount)) {
                     return Response.ok().build();
                 }
-                return Response.status(Response.Status.CONFLICT).entity(new AbstractMap.SimpleEntry<>("error", "could not add product due to restrictions")).build();
+                return Response.status(Response.Status.CONFLICT).entity(new SimpleEntry<>("error", "could not add product due to restrictions")).build();
             }
-            return Response.status(Response.Status.BAD_REQUEST).entity(new AbstractMap.SimpleEntry<>("error", "no valid JsonValue given, was type: "+jsonStructure.getValueType().toString())).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(new SimpleEntry<>("error", "no valid JsonValue given, was type: "+jsonStructure.getValueType().toString())).build();
         } catch (Exception e) {
-            return Response.status(Response.Status.CONFLICT).entity(new AbstractMap.SimpleEntry<>("error", e.getMessage())).build();
+            return Response.status(Response.Status.CONFLICT).entity(new SimpleEntry<>("error", e.getMessage())).build();
         }
     }
 }
