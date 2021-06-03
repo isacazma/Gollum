@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BigShopper - part 2</title>
+</head>
+<body>
+<h3>Add Shopper to Shop</h3>
+<form id="POSTShopperForm" method="post">
+    <label for="shoppername">Shopper name:<input type="text" id="shoppername" name="name"/></label>
+    <input type="button" id="postShopper" value="Post!"/>
+</form>
+<h3>Reset list</h3>
+<form id="PUTListForm" method="post">
+    <label for="resetshoppinglistname">Shoppinglistname:</label><input type="text" id="resetshoppinglistname" name="name"/>
+    <input type="button" id="putShoppinglist" value="Post!"/>
+</form>
+<h3>Delete shopper</h3>
+<form id="DELETEShopperForm" method="post">
+    <label for="deleteshoppername">Shoppername:</label><input type="text" id="deleteshoppername" name="name"/>
+    <input type="button" id="deleteshopper" value="Post!"/>
+</form>
+<h3>Rename product</h3>
+<form id="PatchProductForm" method="post">
+    <label for="patchproductnameold">Shoppername:</label><input type="text" id="patchproductnameold" name="oldproductname"/>
+    <label for="patchproductnamenew">Shoppername:</label><input type="text" id="patchproductnamenew" name="newproductname"/>
+    <input type="button" id="patchproduct" value="Post!"/>
+</form>
+
+<script>
+    //Send add-shopper form using FormParams in the backend
+    document.querySelector("#postShopper").addEventListener("click", function () {
+        var formData = new FormData(document.querySelector("#POSTShopperForm"));
+        var encData = new URLSearchParams(formData.entries());
+
+        fetch("restservices/shoppers", {method: 'POST', body: encData})
+            .then(response => console.log(response));
+    });
+    //Reset shoppinglist in the backend
+    document.querySelector("#putShoppinglist").addEventListener("click", function () {
+        let shoppinglistname = document.querySelector("#resetshoppinglistname").value;
+
+        fetch("restservices/list/"+shoppinglistname, {method: 'PUT'})
+            .then(response => console.log(response));
+    });
+    //Delete shopper in the backend
+    document.querySelector("#deleteshopper").addEventListener("click", function () {
+        let shoppername = document.querySelector("#deleteshoppername").value;
+
+        fetch("restservices/shopper/"+shoppername, {method: 'DELETE'})
+            .then(response => console.log(response));
+    });
+    //Patch product using FormParams in the backend
+    document.querySelector("#patchproduct").addEventListener("click", function () {
+        let oldname = document.querySelector("#patchproductnameold").value;
+
+        var formData = new FormData(document.querySelector("#PatchProductForm"));
+        var encData = new URLSearchParams(formData.entries());
+
+        fetch("restservices/product/" + oldname, {method: 'PATCH', body: encData})
+            .then(response => console.log(response));
+    });
+</script>
+</body>
+</html>

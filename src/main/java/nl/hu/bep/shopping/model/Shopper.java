@@ -38,12 +38,30 @@ public class Shopper implements NamedObject {
         return Collections.unmodifiableList(allShoppers);
     }
 
+    public static boolean removeShopper(String shopperName) {
+        Shopper foundShopper = null;
+        for (Shopper shopper : allShoppers) {
+            if (shopper.getName().equals(shopperName)) {
+                foundShopper = shopper;
+                break;
+            }
+        }
+
+        if (foundShopper != null) {
+            allShoppers.remove(foundShopper);
+            ShoppingList.removeListsFrom(foundShopper);
+            return true;
+        } else return false;
+    }
+
+
     public boolean addList(ShoppingList newList) {
         if (!allLists.contains(newList)) {
             return allLists.add(newList);
         }
         return false;
     }
+
     @JsonIgnore //ivm recursie door jackson
     public List<ShoppingList> getAllLists() {
         return Collections.unmodifiableList(allLists);

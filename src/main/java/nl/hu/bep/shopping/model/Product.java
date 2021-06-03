@@ -17,9 +17,18 @@ public class Product implements NamedObject {
     public String getName() {
         return name;
     }
+    public void setName(String newname) { this.name = newname; }
 
     public static List<Product> getAllProducts() {
         return Collections.unmodifiableList(allProducts);
+    }
+    public static Product getProductByName(String name) {
+        for (Product product : allProducts) {
+            if (product.getName().equals(name)) {
+                return product;
+            }
+        }
+        return null;
     }
 
     @Override

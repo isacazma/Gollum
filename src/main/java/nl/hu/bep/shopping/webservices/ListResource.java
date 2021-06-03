@@ -14,26 +14,10 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@Path("list")
+@Path("list/{name}")
 public class ListResource {
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getShoppingLists() {
-        if (Shop.getShop().getAllShoppingLists().isEmpty())
-            return Response.noContent().build(); // 204: succesvol verzoek, maar niets om te tonen
-        ArrayList<HashMap<String,String>> info = new ArrayList<>();
-        for(ShoppingList sl : Shop.getShop().getAllShoppingLists()){
-            HashMap<String,String> lijst = new HashMap<>();
-            lijst.put("listname", sl.getName());
-            lijst.put("owner", sl.getOwner().getName());
-            info.add(lijst);
-        }
-        return Response.ok(info).build(); //op deze manier houden we jackson binnen de perken zonder @JsonIgnore
-    }
-
-    @GET
-    @Path("{name}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getShoppingListByName(@PathParam("name") String name) {
         if (Shop.getShop().getShoppingListByName(name) == null) return Response.noContent().build();
@@ -42,25 +26,7 @@ public class ListResource {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createShoppingList(@FormParam("owner") String owner, @FormParam("name") String listname) {
-        //Dit voorbeeld zo expliciet mogelijk uitgewerkt, bevat vele checks, maar geeft ENKEL statuscodes terug en gebruikt FormParam als input
-        Shopper found = Shopper.getAllShoppers().stream().filter(e->e.getName().equals(owner)).findFirst().orElse(null);
-        if (found != null) { //werkt want equals checkt enkel op name van shopper
-            if (found.addList(new ShoppingList(listname, found))) { //addList laat ons weten of het toevoegen gelukt is (ivm dubbele namen kan dit mislukken)
-                return Response.ok().build();
-            } else {
-                return Response.status(Response.Status.CONFLICT).build(); //er bestond al zo'n lijst waarschijnlijk
-            }
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build(); //er bestond geen shopper met die naam
-        }
-    }
-
-
-    @POST
-    @Path("/item") //om deze post te onderscheiden van de POST hierboven
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response addProductToList(String jsonBody) {
+    public Response addProductToList(String jsonBody) { /* Je zou hier ipv json ook Form-parameters kunnen gebruiken, zie andere webservicemethode in dit project! */
         //Dit voorbeeld gebruikt json als input en geeft bij de statuscode ook meldingen mee met daarin de fout, dat is wat prettiger voor de frontend programmeur
         //JsonObjectBuilder responseObject = Json.createObjectBuilder();
         try {
@@ -86,5 +52,16 @@ public class ListResource {
         } catch (Exception e) {
             return Response.status(Response.Status.CONFLICT).entity(new SimpleEntry<>("error", e.getMessage())).build();
         }
+    }
+
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response resetShoppingList(@PathParam("name") String listname) {
+        ShoppingList list = Shop.getShop().getShoppingListByName(listname);
+
+        if (list == null) return Response.status(Response.Status.NOT_FOUND).build();
+
+        list.resetList();
+        return Response.noContent().build();
     }
 }

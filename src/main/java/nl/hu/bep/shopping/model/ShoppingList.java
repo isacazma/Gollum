@@ -41,7 +41,20 @@ public class ShoppingList implements NamedObject {
         return owner;
     }
 
+    public void resetList() {
+        ListItems.clear();
+    }
+
     public static List<ShoppingList> getAllLists() {
         return Collections.unmodifiableList(allLists);
+    }
+    protected static void removeListsFrom(Shopper shopper) {
+        List<ShoppingList> toRemove = new ArrayList<>();
+        for (ShoppingList list : allLists) {
+            if (list.getOwner().equals(shopper)) {
+                toRemove.add(list);
+            }
+        }
+        allLists.removeAll(toRemove);
     }
 }
