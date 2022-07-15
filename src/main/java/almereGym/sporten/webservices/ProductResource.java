@@ -1,12 +1,10 @@
-package nl.hu.bep.shopping.webservices;
+package almereGym.sporten.webservices;
 
-import nl.hu.bep.shopping.model.Product;
-import nl.hu.bep.shopping.model.Shop;
+import almereGym.sporten.model.Product;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.AbstractMap;
 
 @Path("product/{name}")
 public class ProductResource {

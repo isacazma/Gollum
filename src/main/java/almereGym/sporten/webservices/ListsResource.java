@@ -1,8 +1,8 @@
-package nl.hu.bep.shopping.webservices;
+package almereGym.sporten.webservices;
 
-import nl.hu.bep.shopping.model.Shop;
-import nl.hu.bep.shopping.model.Shopper;
-import nl.hu.bep.shopping.model.ShoppingList;
+import almereGym.sporten.model.Shop;
+import almereGym.sporten.model.Shopper;
+import almereGym.sporten.model.ShoppingList;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

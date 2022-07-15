@@ -1,9 +1,8 @@
-package nl.hu.bep.shopping.webservices;
+package almereGym.sporten.webservices;
 
-import nl.hu.bep.shopping.model.Product;
-import nl.hu.bep.shopping.model.Shop;
-import nl.hu.bep.shopping.model.Shopper;
-import nl.hu.bep.shopping.model.ShoppingList;
+import almereGym.sporten.model.Product;
+import almereGym.sporten.model.Shop;
+import almereGym.sporten.model.ShoppingList;
 
 import javax.json.*;
 import javax.ws.rs.*;
@@ -11,8 +10,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.StringReader;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 @Path("list/{name}")
 public class ListResource {

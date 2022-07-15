@@ -1,6 +1,6 @@
-package nl.hu.bep.shopping.webservices;
+package almereGym.sporten.webservices;
 
-import nl.hu.bep.shopping.model.Shop;
+import almereGym.sporten.model.Shop;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

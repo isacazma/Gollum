@@ -1,4 +1,4 @@
-package nl.hu.bep.security;
+package almereGym.sporten.security;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

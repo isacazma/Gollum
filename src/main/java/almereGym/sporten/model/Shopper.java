@@ -1,4 +1,4 @@
-package nl.hu.bep.shopping.model;
+package almereGym.sporten.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

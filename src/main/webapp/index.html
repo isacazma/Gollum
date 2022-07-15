@@ -1,90 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Test</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Creative - Train_Meer_Gym</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap Icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css" />
+    <!-- SimpleLightbox plugin CSS-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="./css/styles.css" rel="stylesheet" />
+    <link href="./css/index.css" rel="stylesheet" />
 </head>
-<body>
-<h1>What API call to test? </h1>
-<h2>Should work:</h2>
-<ul>
-    <li>
-        <a href="/restservices/lists">See all lists</a>
-    </li>
-    <li>
-        <a href="/restservices/list/initialList">See the first list</a>
-    </li>
-    <li>
-        <a href="/restservices/list/anotherList">See the other list</a>
-    </li>
-    <li>
-        <a href="/restservices/shoppers">See all Shoppers</a>
-    </li>
-    <li>
-        <a href="/restservices/shopper/Dum-Dum/shoppinglists">See all lists belonging to
-            Dum-Dum</a>
-    </li>
-    <li>
-        <a href="/restservices/products">See all Products</a>
-    </li>
-    <li>
-        <a href="/bigshopper_part2.html">See forms for BigShopper assignment, part 2</a>
-    </li>
-</ul>
-<h2>Should give clean error message</h2>
-<ul>
-    <li>
-        <a href="/restservices/list/nonExistingList">See a non existent list</a>
-    </li>
-    <li>
-        <a href="/restservices/shopper/Gum-Gum/shoppinglists">See all lists belonging to a
-            non-existent shopper</a>
-    </li>
-</ul>
-<h2>Post methods</h2>
-<h3>Add Shoppinglist</h3>
-<form id="POSTShoppingListForm">
-    <label for="owner">Owner name:<input type="text" id="owner" name="owner"/></label><br/>
-    <label for="shoppinglistname">List name:<input type="text" id="shoppinglistname" name="name"/></label>
-    <input type="button" id="postList" value="Post!"/>
-</form>
-<h3>Add Product to List</h3>
-<form id="POSTProductForm" method="post" action="/restservices/list/item">
-    <label for="shoppinglistname">List name:<input type="text" id="productshoppinglistname" name="list"/></label>
-    <label for="productname">Product name:<input type="text" id="productname" name="productname"/></label><br/>
-    <label for="amount">Amount:<input type="number" id="amount" name="amount"/></label>
-    <input type="button" id="postProduct" value="Post!"/>
-</form>
+<body id="page-top">
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="#page-top">Gym ALmere</a> <!-- titel beneden-->
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto my-2 my-lg-0">
 
-<script type="text/javascript">
-    //Send first form using FormParams in the backend
-    document.querySelector("#postList").addEventListener("click", function () {
-        var id = document.querySelector("#idvaninput").value;
-        var formData = new FormData(document.querySelector("#POSTShoppingListForm"));
-        var encData = new URLSearchParams(formData.entries());
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- Masthead-->
 
-        fetch("restservices/lists/" + id, {method: 'POST', body: encData})
-            .then(response => console.log(response));
-    });
-    //Send second form using JSON as body
-    document.querySelector("#postProduct").addEventListener("click", function () {
-        let jsonRequestBody = {};
-        let form = document.querySelector("#POSTProductForm");
 
-        //automatisch verwerken van het formulier om het minder bewerkelijk te maken
-        new FormData(form).forEach((value, key) => jsonRequestBody[key] = value);
+<header class="masthead">
+    <div class="container px-4 px-lg-5 h-100">
+        <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
+            <div class="col-lg-8 align-self-end">
+                <h1 class="text-white font-weight-bold" style="color: pink;">Welkom klink op START:)</h1>
+                <hr class="divider" />
+            </div>
+            <div class="col-lg-8 align-self-baseline">
 
-        fetch(form.action, {
-            method: form.method,
-            body: JSON.stringify(jsonRequestBody),
-            headers: {'Content-Type': 'application/json'}
-        })
-            .then(response => response.json()) //het antwoord van jackson=json
-            .then(myJson => console.log(myJson)) //log het antwoord
-            .catch(error => console.log(error)); //log de error
 
-        event.preventDefault();
-    });
-</script>
+                <!-- bkeuze gebruiker-->
+                <li class="nav-item"><a class="nav-link" a href="gebruikersKeuze.html">Start</a></li>
+
+
+
+            </div>
+            <p class="text-white-75 mb-5">Geen gewicht is te zwaar</p>
+            <a class="btn btn-primary btn-xl" href="#about">Train_meer_GYM</a>
+
+        </div>
+    </div>
+</header>
+
+<script src="js/scripts.js"></script>
 </body>
 </html>
