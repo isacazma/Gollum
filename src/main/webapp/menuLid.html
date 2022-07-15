@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Titvdvdvdvdle</title>
+</head>
+<body>
+<h1 >Komt nog</h1>
+<li>
+    <a href="/restservices/online/lidOnlineKeuze">See all online</a>
+
+</li>
+
+<li>
+    <a href="/restservices/producten">Zie de producten die ik kan bestelen via de app </a>
+
+</li>
+
+<li>
+    <a href="/restservices/nieuwBericht/alleBerichtenTerug">Klik hier om te zien of u besteling is afgerond   </a>
+</li>
+
+<li>
+    <a href="/restservices/les/aantallessen">Aantal lessen met de aantal deelnemers</a>
+
+</li>
+
+<h3>Schrijf je in voor een les </h3>
+<form id="inschrijvenLess">
+    <label for="naamLes">naamLes:<input type="text" id="naamLes" name="naamLes"/></label>
+    <label for="name">name :<input type="text" id="name" name="name"/></label>
+    <label for="pass">pass<input type="text" id="pass" name="pass"/></label>
+    <label for="role">role<input type="role" id="role" name="role"/></label>
+    <input type="button" id="schrijfIn" value="schrijfIn"/>
+</form>
+
+
+<h3>Schrijf hier de producten die u bij de ballie wilt op halen  </h3>
+<form id="addBerichten">
+    <label for="FullName">Naam die u ziet op het bord :<input type="text" id="FullName" name="FullName"/></label>
+    <label for="Bericht">name :<input type="Bericht" id="Bericht" name="Bericht"/></label>
+    <input type="button" id="addBericht" value="addBericht"/>
+</form>
+
+
+<script>
+    window.addEventListener("load", function(){
+        document.querySelector("#addBericht").addEventListener("click", addBerichten)
+    });
+    function addBerichten() {
+
+        let formData= new FormData(document.querySelector("#addBerichten"));
+        let requestData={
+
+            FullName: formData.get("FullName"),
+            Bericht: formData.get("Bericht"),
+
+        }
+
+
+
+        fetch("restservices/nieuwBericht", {
+            method: "POST",
+            body: JSON.stringify(requestData),
+            headers: {"Content-type": "application/json"}
+        })
+            .then(response => response.json())
+            .then(data=> console.log(data))
+
+    }
+
+
+</script>
+
+<script>
+
+    window.addEventListener("load", function(){
+        document.querySelector("#schrijfIn").addEventListener("click", inschrijvenLes);
+    })
+
+    function inschrijvenLes() {
+
+        let formData = new FormData(document.querySelector("#inschrijvenLess"))
+        let requestData={
+
+            naamLes : formData.get('naamLes'),
+            name : formData.get('name'),
+            pass : formData.get('pass'),
+            role : formData.get('role')
+        }
+
+
+        fetch("restservices/les", {
+            method: "POST",
+            body: JSON.stringify(requestData),
+            headers: {"Content-type": "application/json"}
+        })
+            .then(response => response.json())
+            .then(data=> console.log(data))
+
+    }
+
+
+    //    hier onder maak je de pats code
+
+
+</script>
+<script>
+
+
+    </body>
+    </html>

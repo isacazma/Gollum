@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<li>
+    <a href="/restservices/online/lid">online Leden </a>
+
+
+
+</li>
+
+<li>
+    <a href="/restservices/nieuwBericht/alleBerichtenTerugVol">Klik hier om bestelingen te lezen   </a>
+</li>
+
+
+<li>
+    <a href="/restservices/online/alleUsers">De users  </a>
+</li>
+
+<li>
+    <a href="/restservices/online/alleBerichtenTerug">Alle Berichten  </a>
+</li>
+
+
+
+alleUsers
+
+
+<h4>Add Medewerker of Lid</h4>
+<form id="addNieuweLeden">
+    <label for="userNaam">Naam:<input type="text" id="userNaam" name="userNaam"></label>
+    <label for="userWachtwoord">Wachtwoord:<input type="text" id="userWachtwoord" name="userWachtwoord"></label>
+    <label for="userroll">Rol:<input type="text" id="userroll" name="userroll"></label>
+    <input type="button" value="usera" id="usera"/>
+</form>
+
+
+<h3>Status verandere code </h3>
+<form id="PatchProductForm" method="post">
+    <label for="patchproductnameold">naam:</label><input type="text" id="patchproductnameold" name="patchproductnameold"/>
+    <!--    <label for="patchproductnamenew">Nieuwe Status:</label><input type="text" id="patchproductnamenew" name="patchproductnamenew"/>-->
+
+    <input type="button" id="patchproduct" value="Post!"/>
+</form>
+<script>
+    document.querySelector("#patchproduct").addEventListener("click", function () {
+        let oldname = document.querySelector("#patchproductnameold").value;
+
+        var formData = new FormData(document.querySelector("#PatchProductForm"));
+        var encData = new URLSearchParams(formData.entries());
+
+        fetch("restservices/nieuwBericht/" + oldname, {method: 'PATCH', body: encData})
+            .then(response => console.log(response));
+    });
+
+</script>
+</script>
+
+<!--<h4>So You Have Chosen ... ...</h4>-->
+<!--<form id="Verwijder" method="post">-->
+<!--    <label for="verwijderPessantsNr">nr:</label><input type="text" id="verwijderPessantsNr" name="name"/>-->
+<!--    <input type="button" id="verwijderPessants" value="Post!"/>-->
+<!--</form>-->
+<script>
+
+    document.querySelector("#verwijderPessants").addEventListener("click", function () {
+        let nummer = document.querySelector("#verwijderPessantsNr").value;
+
+        fetch("restservices/verwijder/verwijdere/"+nummer, {method: 'DELETE'})
+            .then(response => console.log(response));
+    });
+
+</script>
+<script>
+
+    function addNieuweLeden() {
+
+        let formData= new FormData(document.querySelector("#addNieuweLeden"));
+        let requestData={
+            name: formData.get("userNaam"),
+            pass: formData.get("userWachtwoord"),
+            roll: formData.get("userroll")
+        }
+
+        fetch("restservices/online/nieuwLidMedewerker", {
+            method: "POST",
+            body: JSON.stringify(requestData),
+            headers: {"Content-type": "application/json"}
+        })
+            .then(response => response.json())
+            .then(data=> console.log(data))
+            .catch(error => console.log(error))
+    }
+    window.addEventListener("load", function(){
+        document.querySelector("#usera").addEventListener("click", addNieuweLeden)
+    });
+</script>
+
+
+<script src="methods.js">
+
+</script>
+</body>
+</html>
